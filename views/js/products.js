@@ -22,7 +22,6 @@ $('.productsTable').DataTable({
 	"processing": true
 });
 
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 GETTING CATEGORY TO ASSIGN A CODE
 =============================================*/
@@ -64,7 +63,6 @@ GETTING CATEGORY TO ASSIGN A CODE
 
 // })
 
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 ADDING SELLING PRICE
 =============================================*/
@@ -87,7 +85,6 @@ $("#newBuyingPrice, #editBuyingPrice").change(function(){
 	}
 
 })
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 PERCENTAGE CHANGE
 =============================================*/
@@ -124,7 +121,6 @@ $(".percentage").on("ifChecked",function(){
 	$("#editSellingPrice").prop("readonly",true);
 
 })
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 UPLOADING PRODUCT IMAGE
 =============================================*/
@@ -174,7 +170,6 @@ $(".newImage").change(function(){
 
   	}
 })
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 EDIT PRODUCT
 =============================================*/
@@ -243,7 +238,6 @@ $(".productsTable tbody").on("click", "button.btnEditProduct", function(){
   })
 
 })
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 DELETE PRODUCT
 =============================================*/

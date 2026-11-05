@@ -13,7 +13,6 @@ if($_SESSION["profile"] == "Seller"){
 }
 
 ?>
-<!-- Log on to codeastro.com for more projects! -->
 <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -87,7 +86,6 @@ if($_SESSION["profile"] == "Seller"){
 
           </table>
 
-		<!-- Log on to codeastro.com for more projects! -->
 
         </div>
       
@@ -102,7 +100,6 @@ if($_SESSION["profile"] == "Seller"){
 <!--=====================================
 =            module add Categories            =
 ======================================-->
-<!-- Log on to codeastro.com for more projects! -->
 <!-- Modal -->
 <div id="addCategories" class="modal fade" role="dialog">
   <div class="modal-dialog">
@@ -143,7 +140,6 @@ if($_SESSION["profile"] == "Seller"){
   $createCategory -> ctrCreateCategory();
 ?>
 
-<!-- Log on to codeastro.com for more projects! -->
 <!--=====================================
 =            module edit Categories            =
 ======================================-->
@@ -170,7 +166,6 @@ if($_SESSION["profile"] == "Seller"){
                 <input type="hidden" name="idCategory" id="idCategory" required>
               </div>
             </div>
-			<!-- Log on to codeastro.com for more projects! -->
           </div>
         </div>
         <div class="modal-footer">
@@ -188,7 +183,6 @@ if($_SESSION["profile"] == "Seller"){
 
   </div>
 </div>
-<!-- Log on to codeastro.com for more projects! -->
 <?php
   
   $deleteCategory = new ControllerCategories();

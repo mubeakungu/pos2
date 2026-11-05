@@ -7,7 +7,6 @@ class productsModel{
 	/*=============================================
 	SHOWING PRODUCTS
 	=============================================*/
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 
 	static public function mdlShowProducts($table, $item, $value){
 
@@ -37,7 +36,6 @@ class productsModel{
 
 	}
 
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 	/*=============================================
 	ADDING PRODUCT
 	=============================================*/
@@ -67,7 +65,6 @@ class productsModel{
 		$stmt = null;
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 	/*=============================================
 	EDITING PRODUCT
 	=============================================*/
@@ -97,7 +94,6 @@ class productsModel{
 		$stmt = null;
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 	/*=============================================
 	DELETING PRODUCT
 	=============================================*/

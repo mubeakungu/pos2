@@ -13,7 +13,6 @@ if($_SESSION["profile"] == "Special"){
 }
 
 ?>
-<!-- Log on to codeastro.com for more projects! -->
 <div class="content-wrapper">
 
   <section class="content-header">
@@ -119,7 +118,6 @@ if($_SESSION["profile"] == "Special"){
                     =            CUSTOMER INPUT           =
                     ======================================-->
                   
-                    <!-- Log on to codeastro.com for more projects! -->
                     <div class="form-group">
 
                       <div class="input-group">
@@ -150,7 +148,6 @@ if($_SESSION["profile"] == "Special"){
                       </div>
 
                     </div>
-					<!-- Log on to codeastro.com for more projects! -->
                     <!--=====================================
                     =            PRODUCT INPUT           =
                     ======================================-->
@@ -225,7 +222,6 @@ if($_SESSION["profile"] == "Special"){
                             </tr>
 
                           </tbody>
-						<!-- Log on to codeastro.com for more projects! -->
                         </table>
                         
                       </div>
@@ -293,7 +289,6 @@ if($_SESSION["profile"] == "Special"){
       =            PRODUCTS TABLE                   =
       =============================================-->
 
-		<!-- Log on to codeastro.com for more projects! -->
       <div class="col-lg-7 hidden-md hidden-sm hidden-xs">
         
           <div class="box box-default">
@@ -334,7 +329,6 @@ if($_SESSION["profile"] == "Special"){
 
 </div>
 
-<!-- Log on to codeastro.com for more projects! -->
 <!--=====================================
 =            module add Customer            =
 ======================================-->
@@ -420,5 +414,4 @@ if($_SESSION["profile"] == "Special"){
 
   </div>
 </div>
-<!-- Log on to codeastro.com for more projects! -->
 <!--====  End of module add Customer  ====-->

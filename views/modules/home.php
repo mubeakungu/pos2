@@ -34,7 +34,7 @@
 
       ?>
     
-    </div><!-- Log on to codeastro.com for more projects! -->
+    </div>
     
     <div class="row">
 
@@ -64,7 +64,7 @@
 
         ?>
 
-      </div><!-- Log on to codeastro.com for more projects! -->
+      </div>
 
        <div class="col-lg-6">
         
@@ -107,4 +107,3 @@
   </section>
 
 </div>
-<!-- Log on to codeastro.com for more projects! -->

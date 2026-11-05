@@ -21,7 +21,6 @@ $('.salesTable').DataTable({
 	"processing": true
 });
 
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 ADDING PRODUCTS TO THE SALE FROM THE TABLE
 =============================================*/
@@ -57,7 +56,6 @@ $(".salesTable tbody").on("click", "button.addProductSale", function(){
           	/*=============================================
           	AVOID ADDING THE PRODUCT WHEN ITS STOCK IS ZERO
           	=============================================*/
-			/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 
           	if(stock == 0){
 
@@ -129,7 +127,6 @@ $(".salesTable tbody").on("click", "button.addProductSale", function(){
 	        listProducts()
 
 	        // FORMAT PRODUCT PRICE
-			// LOG ON TO codeastro.com FOR MORE PROJECTS
 
 	        $(".newProductPrice").number(true, 2);
 
@@ -139,7 +136,6 @@ $(".salesTable tbody").on("click", "button.addProductSale", function(){
 
 });
 
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 WHEN TABLE LOADS EVERYTIME THAT NAVIGATE IN IT
 =============================================*/
@@ -334,7 +330,6 @@ $(".btnAddProduct").click(function(){
 
 })
 
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 SELECT PRODUCT
 =============================================*/
@@ -434,7 +429,6 @@ $(".saleForm").on("change", "input.newProductQuantity", function(){
     listProducts()
 
 })
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*============================================
 PRICES ADDITION
 =============================================*/
@@ -466,7 +460,6 @@ function addingTotalPrices(){
 
 
 }
-/* LOG ON TO codeastro.com FOR MORE PROJECTS */
 /*=============================================
 ADD TAX
 =============================================*/
