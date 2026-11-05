@@ -1,12 +1,12 @@
 <?php
 use Mike42\Escpos\EscposImage;
 
-class ExampleTest extends PHPUnit_Framework_TestCase
+class ExampleTest extends PHPUnit\Framework\TestCase
 {
     /* Verify that the examples don't fizzle out with fatal errors */
     private $exampleDir;
     
-    public function setup()
+    public function setUp(): void
     {
         $this -> exampleDir = dirname(__FILE__) . "/../../example/";
     }
@@ -127,6 +127,19 @@ class ExampleTest extends PHPUnit_Framework_TestCase
         $this -> outpTest($outp, "pdf417-code.bin");
     }
 
+    /**
+     * @medium
+     */
+    public function testUnifontPrintBuffer()
+    {
+        $this->markTestSkipped('Not repeatable on Travis CI.');
+        if(!file_exists("/usr/share/unifont/unifont.hex")) {
+            $this -> markTestSkipped("Test only repeatable w/ unifont installed");
+        }
+        $outp = $this -> runExample("unifont-print-buffer.php");
+        $this -> outpTest($outp, "unifont-print-buffer.bin");
+    }
+
     public function testInterfaceCups()
     {
         $outp = $this -> runSyntaxCheck("interface/cups.php");
@@ -181,7 +194,7 @@ class ExampleTest extends PHPUnit_Framework_TestCase
     protected function requireGraphicsLibrary()
     {
         if (!EscposImage::isGdLoaded() && !EscposImage::isImagickLoaded()) {
-            $this -> markTestSkipped("This test requires a graphics library.");
+            $this -> markTestSkipped("gd or imagick plugin is required for this test");
         }
     }
 }

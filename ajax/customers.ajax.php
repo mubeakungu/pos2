@@ -1,5 +1,15 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] != "ok"){
+
+	http_response_code(403);
+	exit();
+
+}
+
+
 require_once "../controllers/customers.controller.php";
 require_once "../models/customers.model.php";
 

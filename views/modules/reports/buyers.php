@@ -87,7 +87,7 @@ var bar = new Morris.Bar({
   xkey: 'y',
   ykeys: ['a'],
   labels: ['sales'],
-  preUnits: '$',
+  preUnits: <?php echo json_encode(ControllerSettings::get('currencySymbol').' '); ?>,
   hideHover: 'auto'
 });
 

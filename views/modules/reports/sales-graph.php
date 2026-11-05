@@ -109,7 +109,7 @@ SALES GRAPH
     pointStrokeColors: ['#efefef'],
     gridLineColor    : '#efefef',
     gridTextFamily   : 'Open Sans',
-    preUnits         : '$',
+    preUnits         : <?php echo json_encode(ControllerSettings::get('currencySymbol').' '); ?>,
     gridTextSize     : 10
   });
 

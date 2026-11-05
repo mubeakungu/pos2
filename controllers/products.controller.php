@@ -35,7 +35,7 @@ class controllerProducts{
 
 			   	$route = "views/img/products/default/anonymous.png";
 
-			   	if(isset($_FILES["newProdPhoto"]["tmp_name"])){
+			   	if(isset($_FILES["newProdPhoto"]) && $_FILES["newProdPhoto"]["error"] == UPLOAD_ERR_OK){
 
 					list($width, $height) = getimagesize($_FILES["newProdPhoto"]["tmp_name"]);
 
@@ -48,7 +48,7 @@ class controllerProducts{
 
 					$folder = "views/img/products/".$_POST["newCode"];
 
-					mkdir($folder, 0755);
+					if(!is_dir($folder)){ mkdir($folder, 0755, true); }
 					/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 					/*=============================================
 					WE APPLY DEFAULT PHP FUNCTIONS ACCORDING TO THE IMAGE FORMAT
@@ -192,11 +192,11 @@ class controllerProducts{
 
 					if(!empty($_POST["currentImage"]) && $_POST["currentImage"] != "views/img/products/default/anonymous.png"){
 
-						unlink($_POST["currentImage"]);
+						if(is_file($_POST["currentImage"]) && strpos(realpath($_POST["currentImage"]), realpath("views/img")) === 0){ unlink($_POST["currentImage"]); }
 
 					}else{
 
-						mkdir($folder, 0755);	
+						if(!is_dir($folder)){ mkdir($folder, 0755, true); }	
 					
 					}
 					
@@ -316,8 +316,8 @@ class controllerProducts{
 
 			if($_GET["image"] != "" && $_GET["image"] != "views/img/products/default/anonymous.png"){
 
-				unlink($_GET["image"]);
-				rmdir('views/img/products/'.$_GET["code"]);
+				if(is_file($_GET["image"]) && strpos(realpath($_GET["image"]), realpath("views/img")) === 0){ unlink($_GET["image"]); }
+				@rmdir('views/img/products/'.$_GET["code"]);
 
 			}
 

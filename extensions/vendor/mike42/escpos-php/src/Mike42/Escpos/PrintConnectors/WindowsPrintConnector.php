@@ -1,14 +1,17 @@
 <?php
+
 /**
  * This file is part of escpos-php: PHP receipt printer library for use with
  * ESC/POS-compatible thermal and impact printers.
  *
- * Copyright (c) 2014-16 Michael Billington < michael.billington@gmail.com >,
+ * Copyright (c) 2014-20 Michael Billington < michael.billington@gmail.com >,
  * incorporating modifications by others. See CONTRIBUTORS.md for a full list.
  *
  * This software is distributed under the terms of the MIT license. See LICENSE.md
  * for details.
  */
+
+declare(strict_types=1);
 
 namespace Mike42\Escpos\PrintConnectors;
 
@@ -100,7 +103,7 @@ class WindowsPrintConnector implements PrintConnector
     /**
      * Valid smb:// URI containing hostname & printer with optional user & optional password only.
      */
-    const REGEX_SMB = "/^smb:\/\/([\s\d\w-]+(:[\s\d\w-+]+)?@)?([\d\w-]+\.)*[\d\w-]+\/([\d\w-]+\/)?[\d\w-]+(\s[\d\w-]+)*$/";
+    const REGEX_SMB = "/^smb:\/\/([\s\d\w-]+(:[\s\d\w+-]+)?@)?([\d\w-]+\.)*[\d\w-]+\/([\d\w-]+\/)?[\d\w-]+(\s[\d\w-]+)*$/";
 
     /**
      * @param string $dest
@@ -286,6 +289,9 @@ class WindowsPrintConnector implements PrintConnector
             }
             /* Final print-out */
             $filename = tempnam(sys_get_temp_dir(), "escpos");
+            if ($filename === false) {
+                throw new Exception("Failed to create temp file for printing.");
+            }
             file_put_contents($filename, $data);
             if (!$this -> runCopy($filename, $device)) {
                 throw new Exception("Failed to copy file to printer");

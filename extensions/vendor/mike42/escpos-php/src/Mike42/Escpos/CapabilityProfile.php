@@ -1,17 +1,20 @@
 <?php
+
 /**
  * This file is part of escpos-php: PHP receipt printer library for use with
  * ESC/POS-compatible thermal and impact printers.
  *
- * Copyright (c) 2014-16 Michael Billington < michael.billington@gmail.com >,
+ * Copyright (c) 2014-20 Michael Billington < michael.billington@gmail.com >,
  * incorporating modifications by others. See CONTRIBUTORS.md for a full list.
  *
  * This software is distributed under the terms of the MIT license. See LICENSE.md
  * for details.
  */
+
+declare(strict_types=1);
+
 namespace Mike42\Escpos;
 
-use Mike42\Escpos\CodePage;
 use \InvalidArgumentException;
 
 /**
@@ -108,12 +111,12 @@ class CapabilityProfile
      * Construct new CapabilityProfile.
      * The encoding data must be loaded from disk before calling.
      *
-     * @param unknown $profileId
+     * @param string $profileId
      *            ID of the profile
      * @param array $profileData
      *            Profile data from disk.
      */
-    protected function __construct($profileId, array $profileData)
+    protected function __construct(string $profileId, array $profileData)
     {
         // Basic primitive fields
         $this->profileId = $profileId;
@@ -137,16 +140,16 @@ class CapabilityProfile
      *
      * @return string Hash of the code page data structure, to identify it for caching.
      */
-    public function getCodePageCacheKey()
+    public function getCodePageCacheKey() : string
     {
         return $this->codePageCacheKey;
     }
 
     /**
      *
-     * @return array Associtive array of CodePage objects, indicating which encodings the printer supports.
+     * @return array Associative array of CodePage objects, indicating which encodings the printer supports.
      */
-    public function getCodePages()
+    public function getCodePages() : array
     {
         return $this->codePages;
     }
@@ -174,7 +177,7 @@ class CapabilityProfile
      *
      * @return string ID of the profile.
      */
-    public function getId()
+    public function getId() : string
     {
         return $this->profileId;
     }
@@ -183,7 +186,7 @@ class CapabilityProfile
      *
      * @return string Name of the printer.
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -192,7 +195,7 @@ class CapabilityProfile
      *
      * @return boolean True if Barcode B command is supported, false otherwise
      */
-    public function getSupportsBarcodeB()
+    public function getSupportsBarcodeB() : bool
     {
         return $this->getFeature('barcodeB') === true;
     }
@@ -201,7 +204,7 @@ class CapabilityProfile
      *
      * @return boolean True if Bit Image Raster command is supported, false otherwise
      */
-    public function getSupportsBitImageRaster()
+    public function getSupportsBitImageRaster() : bool
     {
         return $this->getFeature('bitImageRaster') === true;
     }
@@ -210,7 +213,7 @@ class CapabilityProfile
      *
      * @return boolean True if Graphics command is supported, false otherwise
      */
-    public function getSupportsGraphics()
+    public function getSupportsGraphics() : bool
     {
         return $this->getFeature('graphics') === true;
     }
@@ -219,17 +222,16 @@ class CapabilityProfile
      *
      * @return boolean True if PDF417 code command is supported, false otherwise
      */
-    public function getSupportsPdf417Code()
+    public function getSupportsPdf417Code() : bool
     {
-        // TODO submit 'pdf417Code' as a new feature to be tracked in upstream profiles
-        return $this->getFeature('qrCode') === true;
+        return $this->getFeature('pdf417Code') === true;
     }
 
     /**
      *
      * @return boolean True if QR code command is supported, false otherwise
      */
-    public function getSupportsQrCode()
+    public function getSupportsQrCode(): bool
     {
         return $this->getFeature('qrCode') === true;
     }
@@ -238,7 +240,7 @@ class CapabilityProfile
      *
      * @return boolean True if Star mode commands are supported, false otherwise
      */
-    public function getSupportsStarCommands()
+    public function getSupportsStarCommands(): bool
     {
         return $this->getFeature('starCommands') === true;
     }
@@ -247,7 +249,7 @@ class CapabilityProfile
      *
      * @return string Vendor of this printer.
      */
-    public function getVendor()
+    public function getVendor() : string
     {
         return $this->vendor;
     }
@@ -258,7 +260,7 @@ class CapabilityProfile
      *            Feature that does not exist
      * @return array Three most similar feature names that do exist.
      */
-    protected function suggestFeatureName($featureName)
+    protected function suggestFeatureName(string $featureName) : array
     {
         return self::suggestNearest($featureName, array_keys($this->features), 3);
     }
@@ -267,7 +269,7 @@ class CapabilityProfile
      *
      * @return array Names of all profiles that exist.
      */
-    public static function getProfileNames()
+    public static function getProfileNames() : array
     {
         self::loadCapabilitiesDataFile();
         return array_keys(self::$profiles);
@@ -281,7 +283,7 @@ class CapabilityProfile
      * @throws InvalidArgumentException Where the ID does not exist. Some similarly-named profiles will be suggested in the Exception text.
      * @return CapabilityProfile The CapabilityProfile that was requested.
      */
-    public static function load($profileName)
+    public static function load(string $profileName)
     {
         self::loadCapabilitiesDataFile();
         if (! isset(self::$profiles[$profileName])) {
@@ -315,7 +317,7 @@ class CapabilityProfile
      * @param int $num
      *            Number of suggestions to return
      */
-    public static function suggestNearest($input, array $choices, $num)
+    public static function suggestNearest(string $input, array $choices, int $num) : array
     {
         $distances = array_fill_keys($choices, PHP_INT_MAX);
         foreach ($distances as $word => $_) {
@@ -331,7 +333,7 @@ class CapabilityProfile
      *            profile name that does not exist
      * @return array Three similar profile names that do exist, plus 'simple' and 'default' for good measure.
      */
-    protected static function suggestProfileName($profileName)
+    protected static function suggestProfileName(string $profileName) : array
     {
         $suggestions = self::suggestNearest($profileName, array_keys(self::$profiles), 3);
         $alwaysSuggest = [

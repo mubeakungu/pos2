@@ -1,5 +1,6 @@
 <?php
   session_start();
+  $businessSettings = ControllerSettings::all();
 ?>
 
 <!DOCTYPE html>
@@ -9,7 +10,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-  <title>POS System</title>
+  <title><?php echo htmlspecialchars($businessSettings["businessName"]); ?> | POS</title>
 
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -98,7 +99,7 @@
   <script src="views/bower_components/morris.js/morris.min.js"></script>
 
   <!-- ChartJS http://www.chartjs.org/-->
-  <script src="views/bower_components/Chart.js/Chart.js"></script>
+  <script src="views/bower_components/chart.js/Chart.js"></script>
   
 </head>
 
@@ -139,6 +140,7 @@
             $_GET["route"] == 'create-sale' ||
             $_GET["route"] == 'edit-sale' ||
             $_GET["route"] == 'reports' ||
+            $_GET["route"] == 'settings' ||
             $_GET["route"] == 'logout'){
 
           include "modules/".$_GET["route"].".php";
@@ -175,6 +177,14 @@
 
   
 <!-- ./wrapper -->
+
+<script>
+  var POS_SETTINGS = <?php echo json_encode(array(
+    "currencySymbol" => $businessSettings["currencySymbol"],
+    "taxRate" => (float)$businessSettings["taxRate"],
+    "taxInclusive" => (bool)$businessSettings["taxInclusive"]
+  )); ?>;
+</script>
 
 <script src="views/js/template.js"></script>
 <script src="views/js/users.js"></script>

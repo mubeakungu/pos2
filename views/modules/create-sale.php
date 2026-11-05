@@ -183,7 +183,7 @@ if($_SESSION["profile"] == "Special"){
                           
                           <thead>
                             
-                            <th>Taxes</th>
+                            <th><?php echo htmlspecialchars(ControllerSettings::get("taxName")); ?><?php echo ControllerSettings::get("taxInclusive") ? " (included)" : ""; ?></th>
                             <th>Total</th>
 
                           </thead>
@@ -197,7 +197,7 @@ if($_SESSION["profile"] == "Special"){
 
                                 <div class="input-group">
                                   
-                                  <input type="number" class="form-control" name="newTaxSale" id="newTaxSale" placeholder="0" min="0" required>
+                                  <input type="number" class="form-control" name="newTaxSale" id="newTaxSale" value="<?php echo (float)ControllerSettings::get("taxRate"); ?>" readonly required>
 
                                   <input type="hidden" name="newTaxPrice" id="newTaxPrice" required>
 
@@ -212,7 +212,7 @@ if($_SESSION["profile"] == "Special"){
 
                                 <div class="input-group">
                                   
-                                  <span class="input-group-addon"><i class="ion ion-social-usd"></i></span>
+                                  <span class="input-group-addon"><?php echo htmlspecialchars(ControllerSettings::get("currencySymbol")); ?></span>
                                   
                                   <input type="number" class="form-control" name="newSaleTotal" id="newSaleTotal" placeholder="00000" totalSale="" readonly required>
 
@@ -250,6 +250,7 @@ if($_SESSION["profile"] == "Special"){
                             
                               <option value="">-Select Payment Method-</option>
                               <option value="cash">Cash</option>
+                              <option value="MPESA">M-Pesa</option>
                               <option value="CC">Credit Card</option>
                               <option value="DC">Debit Card</option>
 

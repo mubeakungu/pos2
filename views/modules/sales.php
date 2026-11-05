@@ -131,11 +131,11 @@ if($xml){
 
                   echo '<td>'.$userAnswer["name"].'</td>
 
-                  <td>'.$value["paymentMethod"].'</td>
+                  <td>'.htmlspecialchars(ControllerSettings::paymentLabel($value["paymentMethod"])).'</td>
 
-                  <td>$ '.number_format($value["netPrice"],2).'</td>
+                  <td>'.ControllerSettings::money($value["netPrice"]).'</td>
 
-                  <td>$ '.number_format($value["totalPrice"],2).'</td>
+                  <td>'.ControllerSettings::money($value["totalPrice"]).'</td>
 
                   <td>'.$value["saledate"].'</td>
 

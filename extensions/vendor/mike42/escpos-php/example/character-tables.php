@@ -14,14 +14,14 @@
  * best to map UTF-8 text into these code pages for you, allowing you to accept
  * arbitrary input from a database, without worrying about encoding it for the printer.
  */
-require __DIR__ . '/../autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
-use Mike42\Escpos\CapabilityProfiles\DefaultCapabilityProfile;
+use Mike42\Escpos\CapabilityProfile;
 
 // Enter connector and capability profile (to match your printer)
 $connector = new FilePrintConnector("php://stdout");
-$profile = DefaultCapabilityProfile::getInstance();
+$profile = CapabilityProfile::load("default");
 $verbose = false; // Skip tables which iconv wont convert to (ie, only print characters available with UTF-8 input)
 
 /* Print a series of receipts containing i18n example strings - Code below shouldn't need changing */
