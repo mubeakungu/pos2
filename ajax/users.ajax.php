@@ -1,5 +1,15 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] != "ok"){
+
+	http_response_code(403);
+	exit();
+
+}
+
+
 require_once "../controllers/users.controller.php";
 require_once "../models/users.model.php";
 
@@ -17,6 +27,12 @@ class AjaxUsers{
 		$value = $this->idUser;
 
 		$answer = ControllerUsers::ctrShowUsers($item, $value);
+
+		if(is_array($answer)){
+
+			unset($answer["password"], $answer[3]);
+
+		}
 
 		echo json_encode($answer);
 	}

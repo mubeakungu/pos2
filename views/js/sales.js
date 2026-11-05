@@ -106,7 +106,7 @@ $(".salesTable tbody").on("click", "button.addProductSale", function(){
 
 	            '<div class="input-group">'+
 
-	              '<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
+	              '<span class="input-group-addon">'+POS_SETTINGS.currencySymbol+'</span>'+
 	                 
 	              '<input type="text" class="form-control newProductPrice" realPrice="'+price+'" name="newProductPrice" value="'+price+'" readonly required>'+
 	 
@@ -203,10 +203,11 @@ $(".saleForm").on("click", "button.removeProduct", function(){
 
 	if($(".newProducto").children().length == 0){
 
-		$("#newTaxSale").val(0);
-		$("#newTotalSale").val(0);
-		$("#totalSale").val(0);
-		$("#newTotalSale").attr("totalSale",0);
+		$("#newSaleTotal").val(0);
+		$("#saleTotal").val(0);
+		$("#newTaxPrice").val(0);
+		$("#newNetPrice").val(0);
+		$("#newSaleTotal").attr("totalSale",0);
 
 	}else{
 
@@ -286,7 +287,7 @@ $(".btnAddProduct").click(function(){
 
 	            '<div class="input-group">'+
 
-	              '<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
+	              '<span class="input-group-addon">'+POS_SETTINGS.currencySymbol+'</span>'+
 	                 
 	              '<input type="text" class="form-control newProductPrice" realPrice="" name="newProductPrice" readonly required>'+
 	 
@@ -472,21 +473,38 @@ ADD TAX
 
 function addTax(){
 
-	var tax = $("#newTaxSale").val();
+	// The tax rate is fixed in Settings
+	var rate = Number(POS_SETTINGS.taxRate) || 0;
 
-	var totalPrice = $("#newSaleTotal").attr("totalSale");
+	var itemsTotal = Number($("#newSaleTotal").attr("totalSale")) || 0;
 
-	var taxPrice = Math.round(Number(totalPrice * tax/100));
+	var taxPrice, netPrice, totalwithTax;
 
-	var totalwithTax = Number(taxPrice) + Number(totalPrice);
-	
+	if(POS_SETTINGS.taxInclusive){
+
+		// Prices already include tax: work the tax out of the total
+		taxPrice = Math.round(itemsTotal * rate / (100 + rate) * 100) / 100;
+		netPrice = Math.round((itemsTotal - taxPrice) * 100) / 100;
+		totalwithTax = itemsTotal;
+
+	}else{
+
+		// Tax is added on top of the prices
+		taxPrice = Math.round(itemsTotal * rate) / 100;
+		netPrice = itemsTotal;
+		totalwithTax = Math.round((itemsTotal + taxPrice) * 100) / 100;
+
+	}
+
+	$("#newTaxSale").val(rate);
+
 	$("#newSaleTotal").val(totalwithTax);
 
 	$("#saleTotal").val(totalwithTax);
 
 	$("#newTaxPrice").val(taxPrice);
 
-	$("#newNetPrice").val(totalPrice);
+	$("#newNetPrice").val(netPrice);
 
 }
 
@@ -526,7 +544,7 @@ $("#newPaymentMethod").change(function(){
 
 			 	'<div class="input-group">'+ 
 
-			 		'<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+ 
+			 		'<span class="input-group-addon">'+POS_SETTINGS.currencySymbol+'</span>'+ 
 
 			 		'<input type="text" class="form-control" id="newCashValue" placeholder="000000" required>'+
 
@@ -538,7 +556,7 @@ $("#newPaymentMethod").change(function(){
 
 			 	'<div class="input-group">'+
 
-			 		'<span class="input-group-addon"><i class="ion ion-social-usd"></i></span>'+
+			 		'<span class="input-group-addon">'+POS_SETTINGS.currencySymbol+'</span>'+
 
 			 		'<input type="text" class="form-control" id="newCashChange" placeholder="000000" readonly required>'+
 
@@ -559,6 +577,8 @@ $("#newPaymentMethod").change(function(){
 
 	}else{
 
+		$("#listPaymentMethod").val("");
+
 		$(this).parent().parent().removeClass('col-xs-4');
 
 		$(this).parent().parent().addClass('col-xs-6');
@@ -569,7 +589,7 @@ $("#newPaymentMethod").change(function(){
                         
                 '<div class="input-group">'+
                      
-                  '<input type="number" min="0" class="form-control" id="newTransactionCode" placeholder="Transaction code"  required>'+
+                  '<input type="text" class="form-control" id="newTransactionCode" placeholder="'+(method == "MPESA" ? "M-Pesa code e.g. QJK3XY12AB" : "Transaction code")+'" maxlength="40" style="text-transform:uppercase" required>'+
                        
                   '<span class="input-group-addon"><i class="fa fa-lock"></i></span>'+
                   
@@ -604,7 +624,9 @@ $(".saleForm").on("change", "input#newCashValue", function(){
 /*=============================================
 CHANGE TRANSACTION CODE
 =============================================*/
-$(".saleForm").on("change", "input#newTransactionCode", function(){
+$(".saleForm").on("change keyup", "input#newTransactionCode", function(){
+
+	$(this).val($(this).val().toUpperCase().replace(/[^A-Z0-9]/g, ""));
 
 	// List method in the entry
      listMethods()
@@ -861,3 +883,30 @@ $(".openXML").click(function(){
 
 })
 
+
+
+/*=============================================
+MAKE SURE A PAYMENT REFERENCE IS GIVEN
+=============================================*/
+$(".saleForm").on("submit", function(e){
+
+	listMethods();
+
+	var method = $("#newPaymentMethod").val();
+
+	if(method && method != "cash" && $.trim($("#newTransactionCode").val()) == ""){
+
+		e.preventDefault();
+
+		swal({
+			type: "error",
+			title: method == "MPESA" ? "Enter the M-Pesa transaction code" : "Enter the transaction code",
+			showConfirmButton: true,
+			confirmButtonText: "Close"
+		});
+
+		return false;
+
+	}
+
+});

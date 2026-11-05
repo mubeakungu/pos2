@@ -67,19 +67,24 @@ This driver is known to work with the following OS/interface combinations:
 ### Printers
 Many thermal receipt printers support ESC/POS to some degree. This driver has been known to work with:
 
-- 3nStrat POS-08
+- 3nStar RPT-008
+- Approx APPPOS80AM
 - AURES ODP-333
 - AURES ODP-500
 - Bematech-4200-TH
 - Bematech LR2000E
+- Birch PRP-085III
 - Bixolon SRP-350III
+- Bixolon SRP-350Plus
 - Black Copper BC-85AC
+- CHD TH-305N
 - Citizen CBM1000-II
 - Citizen CT-S310II
 - Dapper-Geyi Q583P 
 - Daruma DR800
 - DR-MP200 (manufacturer unknown)
 - EPOS TEP 220M
+- Elgin i9
 - Epson EU-T332C
 - Epson FX-890 (requires `feedForm()` to release paper).
 - Epson TM-T20
@@ -96,27 +101,39 @@ Many thermal receipt printers support ESC/POS to some degree. This driver has be
 - Epson TM-U295 (requires `release()` to release slip).
 - Epson TM-U590 and TM-U590P
 - Equal (EQ-IT-001) POS-58
+- Everycom EC-58
 - Excelvan HOP-E200 
 - Excelvan HOP-E58
 - Excelvan HOP-E801
-- Excelvan ZJ-8220
+- Gainscha GP-2120TF
 - Gainscha GP-5890x (Also marketed as EC Line 5890x)
 - Gainscha GP-U80300I (Also marketed as gprinter GP-U80300I)
 - gprinter GP-U80160I
+- HOIN HOP-H58
+- Ithaca iTherm 28
 - Hasar HTP 250
 - Metapace T-1
 - Metapace T-25
 - Nexa PX700
 - Nyear NP100
-- Okipos 80 Plus III
+- OKI RT322
+- OKI 80 Plus III
 - Orient BTP-R580
-- Partner Tech RP320
 - P-822D
 - P85A-401 (make unknown)
+- Partner Tech RP320
+- POSLIGNE ODP200H-III-G
+- QPOS Q58M
 - Rongta RP326US
 - Rongta RP58-U
+- Rongta RP80USE
+- SAM4S GIANT-100DB
 - Senor TP-100
+- Sewoo SLK-TS400
+- SEYPOS PRP-96
 - SEYPOS PRP-300 (Also marketed as TYSSO PRP-300)
+- SNBC BTP-R880NPIII
+- Solux SX-TP-88300
 - Sicar POS-80
 - Silicon SP-201 / RP80USE
 - SPRT SP-POS88V
@@ -125,7 +142,9 @@ Many thermal receipt printers support ESC/POS to some degree. This driver has be
 - Star TSP100III FuturePRNT
 - Star TSP-650
 - Star TUP-592
+- TVS RP45 Shoppe
 - Venus V248T
+- Xeumior SM-8330
 - Xprinter F-900
 - Xprinter XP-365B
 - Xprinter XP-58 Series
@@ -135,9 +154,9 @@ Many thermal receipt printers support ESC/POS to some degree. This driver has be
 - Xprinter XP-Q800
 - Zjiang NT-58H
 - Zjiang ZJ-5870
-- Zjiang ZJ-5890K
-- Zjiang ZJ-5890T (Marketed as POS 5890T)
-- Zjiang ZJ-8220
+- Zjiang ZJ-5890 (Also sold as POS-5890 by many vendors; ZJ-5890K, ZJ-5890T also work).
+- Zjiang ZJ-8220 (Also marketed as Excelvan ZJ-8220)
+- Zjiang ZJ-8250
 
 If you use any other printer with this code, please [let us know](https://github.com/mike42/escpos-php/issues/new) so that it can be added to the list.
 
@@ -146,43 +165,27 @@ If you use any other printer with this code, please [let us know](https://github
 ### Include the library
 
 #### Composer
-If you are using composer, then add `mike42/escpos-php` as a dependency:
+
+This library is designed for use with the `composer` PHP dependency manager. Simply add the `mike42/escpos-php` package to get started:
 
 ```bash
 composer require mike42/escpos-php
 ```
 
-In this case, you would include composer's auto-loader at the top of your source files:
-
-```php
-<?php
-require __DIR__ . '/vendor/autoload.php';
-```
-
-#### Manually
-If you don't have composer available, then simply download the code and include `autoload.php`:
-
-```bash
-git clone https://github.com/mike42/escpos-php vendor/mike42/escpos-php
-```
-
-```php
-<?php
-require __DIR__ . '/vendor/mike42/escpos-php/autoload.php';
-```
+If you haven't used `composer` before, you can read about it at [getcomposer.org](https://getcomposer.org/).
 
 #### Requirements
 
-To maintain compatibility with as many systems as possible, this driver has few
-hard dependencies:
+This project has few hard dependencies:
 
-- PHP 5.4 or above.
-- `mbstring` extension, since the driver accepts UTF-8 encoding.
+- PHP 7.3 or newer.
+- `json` extension, used to load bundled printer definitions (see [documentation](https://www.php.net/manual/en/book.json.php))
+- `intl` extension, used for character encoding (see [documentation](https://www.php.net/manual/en/book.intl.php))
+- `zlib` extension, used for de-compressing bundled resources (see [documentation](https://www.php.net/manual/en/book.zlib.php)).
 
-It is also suggested that you install either `imagick` or `gd`, so that you can
-print images.
+It is also suggested that you install either `imagick` or `gd`, as these can be used to speed up image processing.
 
-A number of optional packages can be added to enable more specific features. These
+A number of optional extensions can be added to enable more specific features. These
 are described in the "suggest" section of [composer.json](https://github.com/mike42/escpos-php/tree/master/composer.json).
 
 ### The 'Hello World' receipt
@@ -253,6 +256,7 @@ try {
 ```
 
 While a serial printer might use:
+
 ```php
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\Printer;
@@ -260,7 +264,7 @@ $connector = new FilePrintConnector("/dev/ttyS0");
 $printer = new Printer($connector);
 ```
 
-For each OS/interface combination that's supported, there are examples in the compatibility section of how a `PrintConnector` would be constructed. If you can't get a `PrintConnector` to work, then be sure to include the working print command in bug.
+For each OS/interface combination that's supported, there are examples in the compatibility section of how a `PrintConnector` would be constructed. If you can't get a `PrintConnector` to work, then be sure to include the working print command in your issue.
 
 ### Using a CapabilityProfile
 
@@ -289,6 +293,7 @@ $printer = new Printer($connector, $profile);
 For a list of available profiles, or to have support for your printer improved, please see the upstream [receipt-print-hq/escpos-printer-db](https://github.com/receipt-print-hq/escpos-printer-db) project.
 
 ### Tips & examples
+
 On Linux, your printer device file will be somewhere like `/dev/lp0` (parallel), `/dev/usb/lp1` (USB), `/dev/ttyUSB0` (USB-Serial), `/dev/ttyS0` (serial).
 
 On Windows, the device files will be along the lines of `LPT1` (parallel) or `COM1` (serial). Use the `WindowsPrintConnector` to tap into system printing on Windows (eg. [Windows USB](https://github.com/mike42/escpos-php/tree/master/example/interface/windows-usb.php), [SMB](https://github.com/mike42/escpos-php/tree/master/example/interface/smb.php) or [Windows LPT](https://github.com/mike42/escpos-php/tree/master/example/interface/windows-lpt.php)) - this submits print jobs via a queue rather than communicating directly with the printer.
@@ -545,9 +550,9 @@ Posts I've written up for people who are learning how to use receipt printers:
 
 This code is MIT licensed, and you are encouraged to contribute any modifications back to the project.
 
-For development, it's suggested that you load `imagick`, `gd` and `Xdebug` PHP exensions, and install `composer`.
+For development, it's suggested that you load `imagick`, `gd` and `Xdebug` PHP extensions.
 
-The tests are executed on [Travis CI](https://travis-ci.org/mike42/escpos-php) over PHP 5.4, 5.5, 5.6, 7.0, 7.1 and 7.2, plus the latest LTS version of HHVM, 3.21. Older versions of PHP are not supported in current releases.
+The tests are executed on [Travis CI](https://travis-ci.org/mike42/escpos-php) over PHP 7.3, 7.4 and 8.0. Older versions of PHP are not supported in the current release, nor is HHVM.
 
 Fetch a copy of this code and load dependencies with composer:
 

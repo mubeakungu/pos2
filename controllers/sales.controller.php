@@ -30,6 +30,21 @@ class ControllerSales{
 
 		if(isset($_POST["newSale"])){
 
+			if(empty($_POST["productsList"]) || empty($_POST["listPaymentMethod"]) || !is_array(json_decode($_POST["productsList"], true))){
+
+				echo '<script>
+					swal({
+						type: "error",
+						title: "Add at least one product and choose how the customer paid",
+						showConfirmButton: true,
+						confirmButtonText: "Close"
+					});
+				</script>';
+
+				return;
+
+			}
+
 			/*=============================================
 			UPDATE CUSTOMER'S PURCHASES AND REDUCE THE STOCK AND INCREASE SALES OF THE PRODUCT
 			=============================================*/
@@ -76,7 +91,6 @@ class ControllerSales{
 
 			$item1b = "lastPurchase";
 
-			date_default_timezone_set('America/Bogota');
 
 			$date = date('Y-m-d');
 			$hour = date('H:i:s');
@@ -103,75 +117,20 @@ class ControllerSales{
 
 			if($answer == "ok"){
 
-				// $printer = "epson20";
+				/*=============================================
+				PRINT ON THE THERMAL PRINTER (if enabled in Settings)
+				=============================================*/
 
-				// $connector = new WindowsPrintConnector($printer);
+				$savedSale = ModelSales::mdlShowSales($table, "code", $_POST["newSale"]);
+				$getSeller = UsersModel::MdlShowUsers("users", "id", $_POST["idSeller"]);
 
-				// $printer = new Printer($connector);
+				$printResult = ControllerSettings::printTicket($savedSale, $getCustomer, $getSeller);
 
-				// $printer -> setJustification(Printer::JUSTIFY_CENTER);
+				if($printResult !== true){
 
-				// $printer -> text(date("Y-m-d H:i:s")."\n");//Invoice date
+					echo '<script>console.error('.json_encode("Receipt printer: ".$printResult).');</script>';
 
-				// $printer -> feed(1); //We feed paper 1 time*/
-
-				// $printer -> text("Inventory System"."\n");//Company name
-
-				// $printer -> text("ID: 71.759.963-9"."\n");//Company's ID
-
-				// $printer -> text("Address: 5th Ave. Miami Fl"."\n");//Company address
-
-				// $printer -> text("Phone: 300 786 52 49"."\n");//Company's phone
-
-				// $printer -> text("Invoice N.".$_POST["newSale"]."\n");//Invoice number
-
-				// $printer -> feed(1); //We feed paper 1 time*/
-
-				// $printer -> text("Customer: ".$getCustomer["name"]."\n");//Customer's name
-
-				// $tableSeller = "users";
-				// $item = "id";
-				// $seller = $_POST["idSeller"];
-
-				// $getSeller = UsersModel::MdlShowUsers($tableSeller, $item, $seller);
-
-				// $printer -> text("Seller: ".$getSeller["name"]."\n");//Seller's name
-
-				// $printer -> feed(1); //We feed paper 1 time*/
-
-				// foreach ($productsList as $key => $value) {
-
-				// 	$printer->setJustification(Printer::JUSTIFY_LEFT);
-
-				// 	$printer->text($value["description"]."\n");//Product's name
-
-				// 	$printer->setJustification(Printer::JUSTIFY_RIGHT);
-
-				// 	$printer->text("$ ".number_format($value["price"],2)." Und x ".$value["quantity"]." = $ ".number_format($value["totalPrice"],2)."\n");
-
-				// }
-
-				// $printer -> feed(1); //We feed paper 1 time*/			
-				
-				// $printer->text("NET: $ ".number_format($_POST["newNetPrice"],2)."\n"); //net price
-
-				// $printer->text("TAX: $ ".number_format($_POST["newTaxPrice"],2)."\n"); //tax value
-
-				// $printer->text("--------\n");
-
-				// $printer->text("TOTAL: $ ".number_format($_POST["saleTotal"],2)."\n"); //ahora va el total
-
-				// $printer -> feed(1); //We feed paper 1 time*/	
-
-				// $printer->text("Thanks for your purchase"); //We can add a footer
-
-				// $printer -> feed(3); //We feed paper 3 times*/
-
-				// $printer -> cut(); //We cut the paper, if the printer has the option
-
-				// $printer -> pulse(); //Through the printer we send a pulse to open the cash drawer.
-
-				// $printer -> close(); 
+				}
 
 				echo'<script>
 
@@ -248,17 +207,17 @@ class ControllerSales{
 					$value1 = $value["id"];
 					$order = "id";
 
-					$getProduct = ProductsModel::mdlShowProducts($tableProducts, $item, $value, $order);
+					$getProduct = ProductsModel::mdlShowProducts($tableProducts, $item, $value1, $order);
 
 					$item1a = "sales";
 					$value1a = $getProduct["sales"] - $value["quantity"];
 
-					$newSales = ProductsModel::mdlUpdateProduct($tableProducts, $item1a, $value1a, $value);
+					$newSales = ProductsModel::mdlUpdateProduct($tableProducts, $item1a, $value1a, $value1);
 
 					$item1b = "stock";
 					$value1b = $value["quantity"] + $getProduct["stock"];
 
-					$stockNew = ProductsModel::mdlUpdateProduct($tableProducts, $item1b, $value1b, $value);
+					$stockNew = ProductsModel::mdlUpdateProduct($tableProducts, $item1b, $value1b, $value1);
 
 				}
 
@@ -320,7 +279,6 @@ class ControllerSales{
 
 				$item1b_2 = "lastPurchase";
 
-				date_default_timezone_set('America/Bogota');
 
 				$date = date('Y-m-d');
 				$hour = date('H:i:s');
@@ -535,7 +493,7 @@ class ControllerSales{
 	DOWNLOAD EXCEL
 	=============================================*/
 
-	public function ctrDownloadReport(){
+	static public function ctrDownloadReport(){
 
 		if(isset($_GET["report"])){
 
@@ -570,10 +528,12 @@ class ControllerSales{
 			header('Content-Disposition:; filename="'.$name.'"');
 			header("Content-Transfer-Encoding: binary");
 
-			echo utf8_decode("<table border='0'> 
+			echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
+
+			echo ("<table border='0'> 
 
 					<tr> 
-					<td style='font-weight:bold; border:1px solid #eee;'>CÓDIGO</td> 
+					<td style='font-weight:bold; border:1px solid #eee;'>CODE</td> 
 					<td style='font-weight:bold; border:1px solid #eee;'>customer</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>Seller</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>quantity</td>
@@ -581,8 +541,8 @@ class ControllerSales{
 					<td style='font-weight:bold; border:1px solid #eee;'>tax</td>
 					<td style='font-weight:bold; border:1px solid #eee;'>netPrice</td>		
 					<td style='font-weight:bold; border:1px solid #eee;'>TOTAL</td>		
-					<td style='font-weight:bold; border:1px solid #eee;'>METODO DE PAGO</td	
-					<td style='font-weight:bold; border:1px solid #eee;'>FECHA</td>		
+					<td style='font-weight:bold; border:1px solid #eee;'>PAYMENT METHOD</td>
+					<td style='font-weight:bold; border:1px solid #eee;'>DATE</td>		
 					</tr>");
 
 			foreach ($sales as $row => $item){
@@ -590,7 +550,7 @@ class ControllerSales{
 				$customer = ControllerCustomers::ctrShowCustomers("id", $item["idCustomer"]);
 				$Seller = ControllerUsers::ctrShowUsers("id", $item["idSeller"]);
 
-			 echo utf8_decode("<tr>
+			 echo ("<tr>
 			 			<td style='border:1px solid #eee;'>".$item["code"]."</td> 
 			 			<td style='border:1px solid #eee;'>".$customer["name"]."</td>
 			 			<td style='border:1px solid #eee;'>".$Seller["name"]."</td>
@@ -600,22 +560,22 @@ class ControllerSales{
 
 			 	foreach ($products as $key => $valueproducts) {
 			 			
-			 			echo utf8_decode($valueproducts["quantity"]."<br>");
+			 			echo ($valueproducts["quantity"]."<br>");
 			 		}
 
-			 	echo utf8_decode("</td><td style='border:1px solid #eee;'>");	
+			 	echo ("</td><td style='border:1px solid #eee;'>");	
 
 		 		foreach ($products as $key => $valueproducts) {
 			 			
-		 			echo utf8_decode($valueproducts["description"]."<br>");
+		 			echo ($valueproducts["description"]."<br>");
 		 		
 		 		}
 
-		 		echo utf8_decode("</td>
-					<td style='border:1px solid #eee;'>$ ".number_format($item["tax"],2)."</td>
-					<td style='border:1px solid #eee;'>$ ".number_format($item["netPrice"],2)."</td>	
-					<td style='border:1px solid #eee;'>$ ".number_format($item["totalPrice"],2)."</td>
-					<td style='border:1px solid #eee;'>".$item["paymentMethod"]."</td>
+		 		echo ("</td>
+					<td style='border:1px solid #eee;'>".ControllerSettings::money($item["tax"])."</td>
+					<td style='border:1px solid #eee;'>".ControllerSettings::money($item["netPrice"])."</td>	
+					<td style='border:1px solid #eee;'>".ControllerSettings::money($item["totalPrice"])."</td>
+					<td style='border:1px solid #eee;'>".ControllerSettings::paymentLabel($item["paymentMethod"])."</td>
 					<td style='border:1px solid #eee;'>".substr($item["saledate"],0,10)."</td>		
 		 			</tr>");
 
@@ -633,7 +593,7 @@ class ControllerSales{
 	Adding TOTAL sales
 	=============================================*/
 
-	public function ctrAddingTotalSales(){
+	static public function ctrAddingTotalSales(){
 
 		$table = "sales";
 

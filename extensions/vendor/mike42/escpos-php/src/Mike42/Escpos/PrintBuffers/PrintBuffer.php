@@ -1,14 +1,17 @@
 <?php
+
 /**
  * This file is part of escpos-php: PHP receipt printer library for use with
  * ESC/POS-compatible thermal and impact printers.
  *
- * Copyright (c) 2014-16 Michael Billington < michael.billington@gmail.com >,
+ * Copyright (c) 2014-20 Michael Billington < michael.billington@gmail.com >,
  * incorporating modifications by others. See CONTRIBUTORS.md for a full list.
  *
  * This software is distributed under the terms of the MIT license. See LICENSE.md
  * for details.
  */
+
+declare(strict_types=1);
 
 namespace Mike42\Escpos\PrintBuffers;
 
@@ -43,7 +46,7 @@ interface PrintBuffer
     /**
      * Used by Escpos to hook up one-to-one link between buffers and printers.
      *
-     * @param Escpos $printer New printer
+     * @param Printer|null $printer New printer
      */
     public function setPrinter(Printer $printer = null);
 
@@ -52,12 +55,12 @@ interface PrintBuffer
      *
      * @param string $text Text to print
      */
-    public function writeText($text);
+    public function writeText(string $text);
 
     /**
      * Accept 8-bit text in the current encoding and add it to the buffer.
      *
      * @param string $text Text to print, already the target encoding.
      */
-    public function writeTextRaw($text);
+    public function writeTextRaw(string $text);
 }

@@ -1,7 +1,5 @@
 <footer class="main-footer">
 
-	<strong>&copy; 2022 - Point of Sale System in PHP</strong>
-	
-	All rights reserved
+	<strong>&copy; <?php echo date("Y"); ?> <?php echo htmlspecialchars($businessSettings["businessName"]); ?></strong>
 
 </footer>

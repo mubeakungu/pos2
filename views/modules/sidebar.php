@@ -85,7 +85,7 @@
 
 				<a href="#">
 
-					<i class="fa fa-usd"></i>
+					<i class="fa fa-shopping-cart"></i>
 
 					<span>Sales</span>
 
@@ -147,6 +147,18 @@
 							<i class="fa fa-user"></i>
 
 							<span>User Management</span>
+
+						</a>
+
+					</li>
+
+					<li>
+
+						<a href="settings">
+
+							<i class="fa fa-cog"></i>
+
+							<span>Settings</span>
 
 						</a>
 

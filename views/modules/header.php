@@ -16,7 +16,11 @@
 
 		<span class="logo-lg">
 
-			<img class="img-responsive" src="views/img/template/logo-blanco-lineal.png" style="padding: 10px 0" >
+			<?php if($businessSettings["logo"] != ""): ?>
+				<img class="img-responsive" src="<?php echo htmlspecialchars($businessSettings["logo"]); ?>" style="padding: 5px 0; max-height:50px; display:inline">
+			<?php else: ?>
+				<b><?php echo htmlspecialchars($businessSettings["businessName"]); ?></b>
+			<?php endif; ?>
 
 		</span>
 

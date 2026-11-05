@@ -1,5 +1,16 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] != "ok"){
+
+	http_response_code(403);
+	exit();
+
+}
+
+
+require_once "../controllers/settings.controller.php";
 require_once "../controllers/products.controller.php";
 require_once "../models/products.model.php";
 
@@ -84,8 +95,8 @@ class productsTable{
 						"'.$products[$i]["description"].'",
 						"'.$categories["Category"].'",
 						"'.$stock.'",
-						"$ '.$products[$i]["buyingPrice"].'",
-						"$ '.$products[$i]["sellingPrice"].'",
+						"'.ControllerSettings::money($products[$i]["buyingPrice"]).'",
+						"'.ControllerSettings::money($products[$i]["sellingPrice"]).'",
 						"'.$products[$i]["date"].'",
 						"'.$buttons.'"
 					],';

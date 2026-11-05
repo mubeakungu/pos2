@@ -12,12 +12,12 @@
 use Mike42\Escpos\Printer;
 use Mike42\Escpos\PrintConnectors\DummyPrintConnector;
 
-class EscposPrintBufferTest extends PHPUnit_Framework_TestCase
+class EscposPrintBufferTest extends PHPUnit\Framework\TestCase
 {
     protected $buffer;
     protected $outputConnector;
     
-    protected function setup()
+    protected function setUp(): void
     {
         $this -> outputConnector = new DummyPrintConnector();
         $printer = new Printer($this -> outputConnector);
@@ -34,9 +34,14 @@ class EscposPrintBufferTest extends PHPUnit_Framework_TestCase
         $this -> assertEquals($expected, $outp);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this -> outputConnector -> finalize();
+    }
+
+    public function testNotUtf8() {
+        $this -> expectException(Exception::class);
+        $this -> buffer -> writeText("Not valid UTF-8 can it be printed? \xc3\x28");
     }
 
     public function testRawTextNonprintable()

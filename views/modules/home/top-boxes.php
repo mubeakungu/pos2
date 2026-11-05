@@ -25,7 +25,7 @@ $totalProducts = count($products);
     
     <div class="inner">
       
-      <h3>$<?php echo number_format($sales["total"],2); ?></h3>
+      <h3><?php echo ControllerSettings::money($sales["total"]); ?></h3>
 
       <p>Sales</p>
     
@@ -33,7 +33,7 @@ $totalProducts = count($products);
     
     <div class="icon">
       
-      <i class="ion ion-social-usd"></i>
+      <i class="ion ion-cash"></i>
     
     </div>
     

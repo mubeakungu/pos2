@@ -1,5 +1,15 @@
 <?php
 
+session_start();
+
+if(!isset($_SESSION["loggedIn"]) || $_SESSION["loggedIn"] != "ok"){
+
+	http_response_code(403);
+	exit();
+
+}
+
+
 require_once "../controllers/categories.controller.php";
 require_once "../models/categories.model.php";
 
