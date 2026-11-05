@@ -25,7 +25,6 @@
 		</span>
 
 	</a>
-	<!-- Log on to codeastro.com for more projects! -->
 	<!--=====================================
 	=            navigation         =
 	======================================-->
@@ -77,7 +76,7 @@
 
 								<a class="btn btn-default btn-flat" href="logout">Logout</a>
 
-							</div><!-- Log on to codeastro.com for more projects! -->
+							</div>
 
 						</li>
 

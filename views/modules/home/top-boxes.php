@@ -20,7 +20,6 @@ $totalProducts = count($products);
 
 
 <div class="col-lg-3 col-xs-6">
-	<!-- Log on to codeastro.com for more projects! -->
   <div class="small-box bg-green">
     
     <div class="inner">
@@ -46,7 +45,6 @@ $totalProducts = count($products);
   </div>
 
 </div>
-<!-- Log on to codeastro.com for more projects! -->
 <div class="col-lg-3 col-xs-6">
 
   <div class="small-box bg-primary">
@@ -74,7 +72,6 @@ $totalProducts = count($products);
   </div>
 
 </div>
-<!-- Log on to codeastro.com for more projects! -->
 <div class="col-lg-3 col-xs-6">
 
   <div class="small-box bg-purple">
@@ -102,7 +99,6 @@ $totalProducts = count($products);
   </div>
 
 </div>
-<!-- Log on to codeastro.com for more projects! -->
 <div class="col-lg-3 col-xs-6">
 
   <div class="small-box bg-red">
@@ -128,5 +124,4 @@ $totalProducts = count($products);
     </a>
 
   </div>
-	<!-- Log on to codeastro.com for more projects! -->
 </div>

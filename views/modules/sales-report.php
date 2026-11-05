@@ -1,4 +1,3 @@
-<!-- Log on to codeastro.com for more projects! -->
 <div class="content-wrapper">
 
   <section class="content-header">
@@ -44,7 +43,6 @@
         </div>
 
       </div>
-		<!-- Log on to codeastro.com for more projects! -->
       <div class="box-body">
 
         Start creating your amazing application!

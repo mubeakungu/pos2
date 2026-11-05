@@ -1,7 +1,6 @@
 <?php
 
 class controllerProducts{
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 	/*=============================================
 	SHOW PRODUCTS
 	=============================================*/
@@ -49,7 +48,6 @@ class controllerProducts{
 					$folder = "views/img/products/".$_POST["newCode"];
 
 					if(!is_dir($folder)){ mkdir($folder, 0755, true); }
-					/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 					/*=============================================
 					WE APPLY DEFAULT PHP FUNCTIONS ACCORDING TO THE IMAGE FORMAT
 					=============================================*/
@@ -153,7 +151,6 @@ class controllerProducts{
 		}
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 	/*=============================================
 	EDIT PRODUCT
 	=============================================*/
@@ -303,7 +300,6 @@ class controllerProducts{
 		}
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 	/*=============================================
 	DELETE PRODUCT
 	=============================================*/
@@ -347,7 +343,6 @@ class controllerProducts{
 		}
 
 	}
-	/* --LOG ON TO codeastro.com FOR MORE PROJECTS-- */
 	/*=============================================
 	SHOW ADDING OF THE SALES
 	=============================================*/

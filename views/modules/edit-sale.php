@@ -13,7 +13,6 @@
       <li><a href="home"><i class="fa fa-dashboard"></i> Home</a></li>
 
       <li class="active">Edit Sale</li>
-		<!-- Log on to codeastro.com for more projects! -->
     </ol>
 
   </section>
@@ -79,7 +78,6 @@
                         <input type="hidden" name="idSeller" value="<?php echo $seller["id"]; ?>">
 
                       </div>
-					<!-- Log on to codeastro.com for more projects! -->
                     </div>
 
 
@@ -106,7 +104,6 @@
                     =            CUSTOMER INPUT           =
                     ======================================-->
                   
-                    <!-- Log on to codeastro.com for more projects! -->
                     <div class="form-group">
 
                       <div class="input-group">
@@ -136,7 +133,6 @@
                         <span class="input-group-addon"><button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#modalAddCustomer" data-dismiss="modal">Add Customer</button></span>
 
                       </div>
-					<!-- Log on to codeastro.com for more projects! -->
                     </div>
 
                     <!--=====================================
@@ -208,7 +204,6 @@
                     <button type="button" class="btn btn-default hidden-lg btnAddProduct">Add Product</button>
 
                     <hr>
-					<!-- Log on to codeastro.com for more projects! -->
                     <div class="row">
 
                       <!--=====================================
@@ -245,7 +240,6 @@
 
                                 </div>
                               </td>
-								<!-- Log on to codeastro.com for more projects! -->
                               <td style="width: 50%">
 
                                 <div class="input-group">
@@ -309,7 +303,6 @@
                 </div>
 
             </div>
-			<!-- Log on to codeastro.com for more projects! -->
             <div class="box-footer">
               <button type="submit" class="btn btn-success pull-right">Save Changes</button>
             </div>
@@ -352,7 +345,6 @@
                      <th>Description</th>
                      <th>Stock</th>
                      <th>Actions</th>
-					<!-- Log on to codeastro.com for more projects! -->
                    </tr> 
 
                 </thead>
@@ -446,7 +438,7 @@
           <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-success">Save Customer</button>
         </div>
-      </form><!-- Log on to codeastro.com for more projects! -->
+      </form>
 
       <?php
 
@@ -457,6 +449,6 @@
     </div>
 
   </div>
-</div><!-- Log on to codeastro.com for more projects! -->
+</div>
 
 <!--====  End of module add Customer  ====-->

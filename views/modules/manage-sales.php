@@ -1,5 +1,4 @@
 <div class="content-wrapper">
-<!-- Log on to codeastro.com for more projects! -->
   <section class="content-header">
     
     <h1>
@@ -41,7 +40,6 @@
           </button>
 
         </div>
-		<!-- Log on to codeastro.com for more projects! -->
 
       </div>
 
